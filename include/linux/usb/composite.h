@@ -331,31 +331,38 @@ extern void usb_composite_unregister(struct usb_composite_driver *);
  * (h) more, TBD.
  */
 struct usb_composite_dev {
-	struct usb_gadget		*gadget;
-	struct usb_request		*req;
-	unsigned			bufsiz;
+	struct usb_gadget *gadget;
+	struct usb_request *req;
+	unsigned bufsiz;
 
-	struct usb_configuration	*config;
+	struct usb_configuration *config;
 
 	/* private: */
 	/* internals */
-	unsigned int			suspended:1;
-	struct usb_device_descriptor	desc;
-	struct list_head		configs;
-	struct usb_composite_driver	*driver;
-	u8				next_string_id;
+	unsigned int suspended:1;
+	struct usb_device_descriptor desc;
+	struct list_head configs;
+	struct usb_composite_driver *driver;
+	u8 next_string_id;
 
 	/* the gadget driver won't enable the data pullup
-	 * while the deactivation count is nonzero.
-	 */
-	unsigned			deactivations;
+	* while the deactivation count is nonzero.
+	*/
+	unsigned deactivations;
 
 	/* protects at least deactivation count */
-	spinlock_t			lock;
+	spinlock_t lock;
 
-	struct switch_dev sdev;
-	/* used by usb_composite_force_reset to avoid signalling switch changes */
-	bool				mute_switch;
+	/*bool        mute_switch;*/
+
+	  /* switch indicating current configuration */
+	struct switch_dev sw_config;
+	struct switch_dev sw_connected;
+	  /* switch indicating connected/disconnected state */
+	struct switch_dev sw_connect2pc;
+	  /* current connected state for sw_connected */
+	bool connected;
+
 	struct work_struct switch_work;
 };
 

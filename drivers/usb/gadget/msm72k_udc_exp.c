@@ -1234,11 +1234,11 @@ static irqreturn_t usb_interrupt(int irq, void *data)
 			/* XXX: we can't seem to detect going offline,
 			 * XXX:  so deconfigure on reset for the time being
 			 */
-			if (ui->driver) {
+			/*if (ui->driver) {
 				cdev->mute_switch = 1;
 				USB_INFO("usb: notify offline\n");
 				ui->driver->disconnect(&ui->gadget);
-			}
+			}*/
 			/* cancel pending ep0 transactions */
 			flush_endpoint(&ui->ep0out);
 			flush_endpoint(&ui->ep0in);
@@ -1610,11 +1610,11 @@ static void usb_reset(struct usb_info *ui)
 
 	configure_endpoints(ui);
 
-	if (ui->driver) {
+	/*if (ui->driver) {
 		cdev->mute_switch = 1;
 		USB_INFO("usb: notify offline\n");
 		ui->driver->disconnect(&ui->gadget);
-	}
+	}*/
 
 	/* cancel pending ep0 transactions */
 	flush_endpoint(&ui->ep0out);
